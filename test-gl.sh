@@ -45,6 +45,11 @@ EOF
 
 echo "🔍 Testing WebGL rendering at $URL ..."
 
+
+LAUNCH_JSON='{"args":["--use-gl=angle","--use-angle=vulkan","--use-vulkan=native","--enable-features=Vulkan","--ignore-gpu-blocklist"]}'
+LAUNCH_ENC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))" "$LAUNCH_JSON")
+URL="http://localhost:3000/function?launch=${LAUNCH_ENC}"
+
 # 3. Execute the request, capturing both the body and the HTTP status code
 RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$URL" \
   -H "Content-Type: application/javascript" \

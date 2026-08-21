@@ -1,5 +1,5 @@
 [Container]
-Image=ghcr.io/browserless/multi:latest
+Image=localhost/playwright-browser-gpu:latest
 ContainerName=playwright-browser-service
 
 AddDevice=/dev/dri
@@ -8,10 +8,18 @@ PodmanArgs=--group-add keep-groups --ipc=host
 Network=host
 
 Environment=ENABLE_GPU=true
+Environment=MESA_VK_DEVICE_SELECT=1002:164c
 Environment=MAX_CONCURRENT_SESSIONS=10
 Environment=XVFB_SCREEN_SIZE=1920x1080x24
 Environment=DEFAULT_VIEWPORT_WIDTH=1920
 Environment=DEFAULT_VIEWPORT_HEIGHT=1080
+
+# Crucial for Firefox hardware acceleration in a headless X11 container
+Environment=MESA_LOADER_DRIVER_OVERRIDE=radeonsi
+Environment=MOZ_WEBRENDER=1
+Environment=MOZ_X11_EGL=1
+Environment=MOZ_DISABLE_CONTENT_SANDBOX=1
+Environment=MOZ_LOG=toplevel:5,webgl:5,widget:5
 Environment=LIBGL_ALWAYS_SOFTWARE=0
 Environment=TIMEOUT=120000
 
